@@ -2,6 +2,7 @@ package com.example.HAndbook.demo.service.impl;
 
 
 import com.example.HAndbook.demo.entity.Person;
+import com.example.HAndbook.demo.exception.PersonNotFoundException;
 import com.example.HAndbook.demo.repository.PersonRepository;
 import com.example.HAndbook.demo.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +14,35 @@ import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
+
     @Autowired
-    PersonRepository personRepository;
-    @Override
-    public List<Person> findByPersonName(String personName) {
-        return null;
-    }
+    private PersonRepository personRepository;
 
     @Override
-    public List<Person> findByPersonLastname(String person) {
-        return null;
-    }
-
-    @Override
-    public Optional<Person> findByPersonId(Long personId) {
-        return personRepository.findById(Math.toIntExact(personId));
+    public void createPerson(Person person) {
+        personRepository.save(person);
     }
     @Override
-    public Optional<Person> findByPhoneNumber(Integer phoneNumber) {
-
-        return personRepository.findById(phoneNumber);
+    public List<Person> findPersonByPersonName(String personName) {
+        return findPersonByPersonLastname(personName);
     }
     @Override
-    public void deleteByPersonId(Long personId) {
+    public List<Person> findPersonByPersonLastname(String person) {
+        return findPersonByPersonLastname(person);
+    }
+    @Override
+    public Person findByPersonId(Long personId) {
+        Optional<Person> optional = personRepository.findById(Math.toIntExact(personId));
+        if(optional.isPresent()){
+            return optional.get();
+        }else{
+        throw new PersonNotFoundException("Person with Id: " + personId);
+    }
+    }
+    @Override
+    public void deletePersonById(Long personId) {
         personRepository.deleteById(Math.toIntExact(personId));
     }
-    @Override
-    public void savePersonById(Long personId) {
-       personRepository.save(new Person());
-    }
-
 }
 
 

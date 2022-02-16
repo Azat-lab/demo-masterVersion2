@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public interface CountryService {
 
-    Country saveByCountryAreaCodeId(Long id);
+    void saveCountryByCountryName(Country country);
     List<Country> findByCountryNameAndAddress(String countryName, String address);
-    Optional<Country> findByCountryAreaCodeId(Long id);
-    long deleteByCountryAreaCodeId(Long id);
+    Country findByCountryAreaCodeId(Long id);
+    void deleteByCountryAreaCodeId(Long id);
 
 
 }

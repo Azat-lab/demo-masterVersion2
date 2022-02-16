@@ -6,6 +6,7 @@ import com.example.HAndbook.demo.service.OperatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -19,30 +20,30 @@ public class OperatorRestController {
         this.operatorService = operatorService;
     }
 
-    @GetMapping(value = "/operator/{id}")
+    @GetMapping(value = "/find/{id}")
     public ResponseEntity<Operator> getOperatorByOperatorId(@PathVariable("id") Long operatorId) {
-        Optional<Operator> operatorData = operatorService.findByOperatorId(operatorId);
+        Optional<Operator> operatorData = Optional.ofNullable(operatorService.findByOperatorId(operatorId));
         return operatorData.map(operator -> new ResponseEntity<>(operator, HttpStatus.OK)).orElseGet(()
                 -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-    @GetMapping("/operator/code")
-    public ResponseEntity<Operator> getOperatorByCode(@RequestBody Operator operator, @PathVariable Integer operatorCode) {
-        Optional<Operator> operatorData = operatorService.findByOperatorCode(operatorCode);
-        return operatorData.map(Operator -> new ResponseEntity<>(operator, HttpStatus.OK)).orElseGet(()
-                -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-    @DeleteMapping(value = "/operator/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<HttpStatus> deleteOperatorId(@PathVariable("id") Long operatorId) {
         try {
-            operatorService.deleteByOperatorId(operatorId);
+            operatorService.deleteOperatorByOperatorId(operatorId);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }}
-    @PostMapping("/operator")
-    public ResponseEntity<Operator> createOperator(@RequestBody Operator operator) {
-        operatorService.saveOperator(String.valueOf(operator));
+    @PostMapping("/save")
+    public ResponseEntity<Operator> createOperator(@RequestBody @Validated  Operator operator) {
+        operatorService.saveOperator(operator);
         return new ResponseEntity<>(HttpStatus.CREATED);
 }}
 
+//
+//    @GetMapping("/operator/code")
+//    public ResponseEntity<Operator> getOperatorByCode(@RequestBody Operator operator, @PathVariable Integer operatorCode) {
+//        Optional<Operator> operatorData = operatorService.findByOperatorCode(operatorCode);
+//        return operatorData.map(Operator -> new ResponseEntity<>(operator, HttpStatus.OK)).orElseGet(()
+//                -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+//    }

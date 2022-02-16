@@ -2,6 +2,9 @@ package com.example.HAndbook.demo.service.impl;
 
 
 import com.example.HAndbook.demo.entity.Country;
+import com.example.HAndbook.demo.entity.Operator;
+import com.example.HAndbook.demo.exception.CountryNotFoundException;
+import com.example.HAndbook.demo.exception.OperatorNotFoundException;
 import com.example.HAndbook.demo.repository.CountryRepository;
 import com.example.HAndbook.demo.service.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,24 +20,26 @@ public class CountryServiceImpl implements CountryService {
     CountryRepository countryRepository;
 
     @Override
-    public Country saveByCountryAreaCodeId(Long id) {
-        return countryRepository.save(saveByCountryAreaCodeId(id));
+    public void saveCountryByCountryName(Country country) {
+        countryRepository.save(country);
     }
 
     @Override
     public List<Country> findByCountryNameAndAddress(String countryName, String address) {
-        return null;
+        return findByCountryNameAndAddress(countryName, address);
+    }
+    @Override
+    public Country findByCountryAreaCodeId(Long id) {
+        Optional<Country> optional = countryRepository.findById(id);
+        if(optional.isPresent()){
+            return optional.get();
+        }else{
+            throw new CountryNotFoundException("Country with Id: " + id);
+        }
     }
 
     @Override
-    public Optional<Country> findByCountryAreaCodeId(Long id) {
-        return countryRepository.findById(id);
-    }
-
-    @Override
-    public long deleteByCountryAreaCodeId(Long id) {
-        countryRepository.deleteById(deleteByCountryAreaCodeId(id));
-
-        return 0;
+    public void deleteByCountryAreaCodeId(Long id) {
+        countryRepository.deleteById(id);
     }
 }

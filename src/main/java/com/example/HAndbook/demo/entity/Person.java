@@ -12,15 +12,15 @@ public class Person {
     private Long personId;
 
     @Column(name = "person_name")
-    private String personName;
+    private String name;
 
     @Column(name = "person_surname")
-    private String personLastname;
+    private String lastname;
 
     @Column(name = "phone_number")
     private Integer phoneNumber;
 
-    public Person(String personName, String personLastname) {
+    public Person(String name, String lastname) {
     }
 
 
@@ -29,23 +29,23 @@ public class Person {
     }
 
     public void setPersonId(Long personId) {
-        personId = personId;
+        this.personId = personId;
     }
 
-    public String getPersonName() {
-        return personName;
+    public String getName() {
+        return name;
     }
 
-    public void setPersonName(String personName) {
-        personName = personName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPersonLastname() {
-        return personLastname;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setPersonLastname(String personLastname) {
-        personLastname = personLastname;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public Integer getPhoneNumber() {
@@ -53,7 +53,7 @@ public class Person {
     }
 
     public void setPhoneNumber(Integer phoneNumber) {
-        phoneNumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public Person() {
@@ -64,11 +64,11 @@ public class Person {
         this.phoneNumber = phoneNumber;
     }
 
-    public Person(Long personId, String personName, String personLastname,
+    public Person(Long personId, String name, String lastname,
                   Integer phoneNumber) {
         this.personId = personId;
-        this.personName = personName;
-        this.personLastname = personLastname;
+        this.name = name;
+        this.lastname = lastname;
         this.phoneNumber = phoneNumber;
     }
 
@@ -80,8 +80,8 @@ public class Person {
         Person person = (Person) o;
 
         if (!Objects.equals(personId, person.personId)) return false;
-        if (!Objects.equals(personName, person.personName)) return false;
-        if (!Objects.equals(personLastname, person.personLastname))
+        if (!Objects.equals(name, person.name)) return false;
+        if (!Objects.equals(lastname, person.lastname))
             return false;
         if (!Objects.equals(phoneNumber, person.phoneNumber))
             return false;
@@ -92,8 +92,8 @@ public class Person {
     @Override
     public int hashCode() {
         int result = personId != null ? personId.hashCode() : 0;
-        result = 31 * result + (personName != null ? personName.hashCode() : 0);
-        result = 31 * result + (personLastname != null ? personLastname.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
     }
@@ -102,8 +102,8 @@ public class Person {
     public String toString() {
         return "Person{" +
                 "PersonId=" + personId +
-                ", PersonName='" + personName + '\'' +
-                ", PersonLastname='" + personLastname + '\'' +
+                ", PersonName='" + name + '\'' +
+                ", PersonLastname='" + lastname + '\'' +
                 ", PhoneNumber=" + phoneNumber +
                 '}';
     }
